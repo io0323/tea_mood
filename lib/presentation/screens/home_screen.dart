@@ -35,18 +35,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           });
         },
         destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home),
-            label: '記録',
-          ),
+          NavigationDestination(icon: Icon(Icons.home), label: '記録'),
           NavigationDestination(
             icon: Icon(Icons.calendar_month),
             label: 'カレンダー',
           ),
-          NavigationDestination(
-            icon: Icon(Icons.analytics),
-            label: '分析',
-          ),
+          NavigationDestination(icon: Icon(Icons.analytics), label: '分析'),
         ],
       ),
     );
@@ -65,7 +59,9 @@ class _TeaLogEntryScreenState extends ConsumerState<TeaLogEntryScreen> {
   Widget build(BuildContext context) {
     final teaLogsAsync = ref.watch(teaLogsProvider);
     final today = DateTime.now();
-    final todayCaffeineAsync = ref.watch(totalCaffeineByDateProvider(DateTime(today.year, today.month, today.day)));
+    final todayCaffeineAsync = ref.watch(
+      totalCaffeineByDateProvider(DateTime(today.year, today.month, today.day)),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -101,7 +97,9 @@ class _TeaLogEntryScreenState extends ConsumerState<TeaLogEntryScreen> {
                           Text('エラー: $error'),
                           const SizedBox(height: 8),
                           ElevatedButton(
-                            onPressed: () => ref.refresh(totalCaffeineByDateProvider(DateTime.now())),
+                            onPressed: () => ref.refresh(
+                              totalCaffeineByDateProvider(DateTime.now()),
+                            ),
                             child: const Text('再試行'),
                           ),
                         ],
@@ -112,14 +110,11 @@ class _TeaLogEntryScreenState extends ConsumerState<TeaLogEntryScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            
+
             // Recent Tea Logs
-            Text(
-              '最近の記録',
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
+            Text('最近の記録', style: Theme.of(context).textTheme.headlineSmall),
             const SizedBox(height: 8),
-            
+
             Expanded(
               child: teaLogsAsync.when(
                 data: (teaLogs) => teaLogs.isEmpty
@@ -134,7 +129,9 @@ class _TeaLogEntryScreenState extends ConsumerState<TeaLogEntryScreen> {
                             margin: const EdgeInsets.only(bottom: 8),
                             child: ListTile(
                               leading: CircleAvatar(
-                                backgroundColor: _getTeaTypeColor(teaLog.teaType),
+                                backgroundColor: _getTeaTypeColor(
+                                  teaLog.teaType,
+                                ),
                                 child: Text(
                                   teaLog.teaType[0].toUpperCase(),
                                   style: const TextStyle(color: Colors.white),
@@ -200,4 +197,4 @@ class _TeaLogEntryScreenState extends ConsumerState<TeaLogEntryScreen> {
       ),
     );
   }
-} 
+}

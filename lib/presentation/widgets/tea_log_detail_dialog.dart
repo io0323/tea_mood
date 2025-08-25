@@ -51,25 +51,22 @@ class TeaLogDetailDialog extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: 16),
-            
+
             // Details
             _buildDetailRow('量', '${teaLog.amount}ml'),
             _buildDetailRow('温度', '${teaLog.temperature}°C'),
             _buildDetailRow('カフェイン', '${teaLog.caffeineMg}mg'),
             _buildDetailRow('気分', _getMoodDisplayName(teaLog.mood)),
-            
+
             if (teaLog.notes != null) ...[
               const SizedBox(height: 16),
-              Text(
-                'メモ',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
+              Text('メモ', style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 8),
               Text(teaLog.notes!),
             ],
-            
+
             const SizedBox(height: 24),
-            
+
             // Action Buttons
             Row(
               children: [
@@ -107,10 +104,7 @@ class TeaLogDetailDialog extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
+          Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
           Text(value),
         ],
       ),
@@ -197,4 +191,4 @@ class TeaLogDetailDialog extends ConsumerWidget {
       ),
     );
   }
-} 
+}

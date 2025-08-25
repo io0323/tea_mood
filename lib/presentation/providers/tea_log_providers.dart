@@ -9,48 +9,81 @@ final teaLogsProvider = FutureProvider<List<TeaLog>>((ref) async {
 });
 
 // TeaLogs by Date Provider
-final teaLogsByDateProvider = FutureProvider.family<List<TeaLog>, DateTime>((ref, date) async {
+final teaLogsByDateProvider = FutureProvider.family<List<TeaLog>, DateTime>((
+  ref,
+  date,
+) async {
   return await sl<GetTeaLogsByDateUseCase>().call(date);
 });
 
 // TeaLogs by Date Range Provider
-final teaLogsByDateRangeProvider = FutureProvider.family<List<TeaLog>, ({DateTime startDate, DateTime endDate})>((ref, params) async {
-  try {
-    print('Calling GetTeaLogsByDateRangeUseCase: ${params.startDate} to ${params.endDate}');
-    final result = await sl<GetTeaLogsByDateRangeUseCase>().call(params.startDate, params.endDate);
-    print('GetTeaLogsByDateRangeUseCase result: ${result.length} logs');
-    return result;
-  } catch (e, stackTrace) {
-    print('Error in teaLogsByDateRangeProvider: $e');
-    print('Stack trace: $stackTrace');
-    rethrow;
-  }
-});
+final teaLogsByDateRangeProvider =
+    FutureProvider.family<
+      List<TeaLog>,
+      ({DateTime startDate, DateTime endDate})
+    >((ref, params) async {
+      try {
+        print(
+          'Calling GetTeaLogsByDateRangeUseCase: ${params.startDate} to ${params.endDate}',
+        );
+        final result = await sl<GetTeaLogsByDateRangeUseCase>().call(
+          params.startDate,
+          params.endDate,
+        );
+        print('GetTeaLogsByDateRangeUseCase result: ${result.length} logs');
+        return result;
+      } catch (e, stackTrace) {
+        print('Error in teaLogsByDateRangeProvider: $e');
+        print('Stack trace: $stackTrace');
+        rethrow;
+      }
+    });
 
 // TeaLog by ID Provider
-final teaLogByIdProvider = FutureProvider.family<TeaLog?, String>((ref, id) async {
+final teaLogByIdProvider = FutureProvider.family<TeaLog?, String>((
+  ref,
+  id,
+) async {
   return await sl<GetTeaLogByIdUseCase>().call(id);
 });
 
 // Total Caffeine by Date Provider
-final totalCaffeineByDateProvider = FutureProvider.family<int, DateTime>((ref, date) async {
+final totalCaffeineByDateProvider = FutureProvider.family<int, DateTime>((
+  ref,
+  date,
+) async {
   return await sl<GetTotalCaffeineByDateUseCase>().call(date);
 });
 
 // Mood Stats by Date Range Provider
-final moodStatsByDateRangeProvider = FutureProvider.family<Map<String, int>, ({DateTime startDate, DateTime endDate})>((ref, params) async {
-  return await sl<GetMoodStatsByDateRangeUseCase>().call(params.startDate, params.endDate);
-});
+final moodStatsByDateRangeProvider =
+    FutureProvider.family<
+      Map<String, int>,
+      ({DateTime startDate, DateTime endDate})
+    >((ref, params) async {
+      return await sl<GetMoodStatsByDateRangeUseCase>().call(
+        params.startDate,
+        params.endDate,
+      );
+    });
 
 // Tea Type Stats by Date Range Provider
-final teaTypeStatsByDateRangeProvider = FutureProvider.family<Map<String, int>, ({DateTime startDate, DateTime endDate})>((ref, params) async {
-  return await sl<GetTeaTypeStatsByDateRangeUseCase>().call(params.startDate, params.endDate);
-});
+final teaTypeStatsByDateRangeProvider =
+    FutureProvider.family<
+      Map<String, int>,
+      ({DateTime startDate, DateTime endDate})
+    >((ref, params) async {
+      return await sl<GetTeaTypeStatsByDateRangeUseCase>().call(
+        params.startDate,
+        params.endDate,
+      );
+    });
 
 // TeaLog Notifier Provider
-final teaLogNotifierProvider = StateNotifierProvider<TeaLogNotifier, AsyncValue<void>>((ref) {
-  return TeaLogNotifier(ref);
-});
+final teaLogNotifierProvider =
+    StateNotifierProvider<TeaLogNotifier, AsyncValue<void>>((ref) {
+      return TeaLogNotifier(ref);
+    });
 
 class TeaLogNotifier extends StateNotifier<AsyncValue<void>> {
   final Ref _ref;
@@ -93,4 +126,4 @@ class TeaLogNotifier extends StateNotifier<AsyncValue<void>> {
       state = AsyncValue.error(error, stackTrace);
     }
   }
-} 
+}

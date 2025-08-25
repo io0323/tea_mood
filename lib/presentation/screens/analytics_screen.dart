@@ -20,11 +20,10 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
     final now = DateTime.now();
     final endDate = DateTime(now.year, now.month, now.day);
     final startDate = endDate.subtract(Duration(days: _selectedPeriod - 1));
-    
-    final analyticsAsync = ref.watch(teaLogsByDateRangeProvider((
-      startDate: startDate,
-      endDate: endDate,
-    )));
+
+    final analyticsAsync = ref.watch(
+      teaLogsByDateRangeProvider((startDate: startDate, endDate: endDate)),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -60,7 +59,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
           // Calculate stats from teaLogs
           final moodStats = _calculateMoodStats(teaLogs);
           final teaTypeStats = _calculateTeaTypeStats(teaLogs);
-          
+
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -69,15 +68,15 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
                 // Summary Cards
                 _buildSummaryCards(teaLogs),
                 const SizedBox(height: 24),
-                
+
                 // Caffeine Trend Chart
                 _buildCaffeineTrendChart(teaLogs),
                 const SizedBox(height: 24),
-                
+
                 // Mood Distribution Chart
                 _buildMoodChart(moodStats),
                 const SizedBox(height: 24),
-                
+
                 // Tea Type Distribution Chart
                 _buildTeaTypeChart(teaTypeStats),
               ],
@@ -91,9 +90,14 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
   }
 
   Widget _buildSummaryCards(List<TeaLog> teaLogs) {
-    final totalCaffeine = teaLogs.fold<int>(0, (sum, log) => sum + log.caffeineMg);
+    final totalCaffeine = teaLogs.fold<int>(
+      0,
+      (sum, log) => sum + log.caffeineMg,
+    );
     final totalTeaCount = teaLogs.length;
-    final avgCaffeinePerDay = totalTeaCount > 0 ? totalCaffeine / _selectedPeriod : 0.0;
+    final avgCaffeinePerDay = totalTeaCount > 0
+        ? totalCaffeine / _selectedPeriod
+        : 0.0;
 
     return Row(
       children: [
@@ -109,10 +113,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
                     '$totalTeaCount',
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
-                  Text(
-                    'お茶の回数',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
+                  Text('お茶の回数', style: Theme.of(context).textTheme.bodyMedium),
                 ],
               ),
             ),
@@ -131,10 +132,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
                     '${totalCaffeine}mg',
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
-                  Text(
-                    '総カフェイン',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
+                  Text('総カフェイン', style: Theme.of(context).textTheme.bodyMedium),
                 ],
               ),
             ),
@@ -153,10 +151,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
                     '${avgCaffeinePerDay.round()}mg',
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
-                  Text(
-                    '1日平均',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
+                  Text('1日平均', style: Theme.of(context).textTheme.bodyMedium),
                 ],
               ),
             ),
@@ -175,10 +170,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'カフェイン推移',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+            Text('カフェイン推移', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 16),
             SizedBox(
               height: 200,
@@ -199,9 +191,12 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
                       sideTitles: SideTitles(
                         showTitles: true,
                         getTitlesWidget: (value, meta) {
-                          if (value.toInt() >= 0 && value.toInt() < caffeineData.length) {
+                          if (value.toInt() >= 0 &&
+                              value.toInt() < caffeineData.length) {
                             return Text(
-                              DateFormat('M/d').format(caffeineData[value.toInt()].date),
+                              DateFormat(
+                                'M/d',
+                              ).format(caffeineData[value.toInt()].date),
                               style: const TextStyle(fontSize: 10),
                             );
                           }
@@ -209,14 +204,21 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
                         },
                       ),
                     ),
-                    topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                    rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    topTitles: const AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
+                    rightTitles: const AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
                   ),
                   borderData: FlBorderData(show: true),
                   lineBarsData: [
                     LineChartBarData(
                       spots: caffeineData.asMap().entries.map((entry) {
-                        return FlSpot(entry.key.toDouble(), entry.value.caffeine.toDouble());
+                        return FlSpot(
+                          entry.key.toDouble(),
+                          entry.value.caffeine.toDouble(),
+                        );
                       }).toList(),
                       isCurved: true,
                       color: Theme.of(context).colorScheme.primary,
@@ -264,18 +266,12 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              '気分の分布',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+            Text('気分の分布', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 16),
             SizedBox(
               height: 200,
               child: PieChart(
-                PieChartData(
-                  sections: sections,
-                  centerSpaceRadius: 40,
-                ),
+                PieChartData(sections: sections, centerSpaceRadius: 40),
               ),
             ),
           ],
@@ -315,18 +311,12 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'お茶の種類分布',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+            Text('お茶の種類分布', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 16),
             SizedBox(
               height: 200,
               child: PieChart(
-                PieChartData(
-                  sections: sections,
-                  centerSpaceRadius: 40,
-                ),
+                PieChartData(sections: sections, centerSpaceRadius: 40),
               ),
             ),
           ],
@@ -337,20 +327,26 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
 
   List<CaffeineDataPoint> _prepareCaffeineData(List<TeaLog> teaLogs) {
     final Map<DateTime, int> dailyCaffeine = {};
-    
+
     // Initialize all days in the period
     for (int i = 0; i < _selectedPeriod; i++) {
-      final date = DateTime.now().subtract(Duration(days: _selectedPeriod - 1 - i));
+      final date = DateTime.now().subtract(
+        Duration(days: _selectedPeriod - 1 - i),
+      );
       final dayStart = DateTime(date.year, date.month, date.day);
       dailyCaffeine[dayStart] = 0;
     }
-    
+
     // Sum caffeine for each day
     for (final log in teaLogs) {
-      final dayStart = DateTime(log.dateTime.year, log.dateTime.month, log.dateTime.day);
+      final dayStart = DateTime(
+        log.dateTime.year,
+        log.dateTime.month,
+        log.dateTime.day,
+      );
       dailyCaffeine[dayStart] = (dailyCaffeine[dayStart] ?? 0) + log.caffeineMg;
     }
-    
+
     return dailyCaffeine.entries
         .map((entry) => CaffeineDataPoint(entry.key, entry.value))
         .toList()
@@ -450,4 +446,4 @@ class CaffeineDataPoint {
   final int caffeine;
 
   CaffeineDataPoint(this.date, this.caffeine);
-} 
+}

@@ -12,19 +12,17 @@ Future<void> init() async {
   try {
     // Initialize Hive
     await Hive.initFlutter();
-    
+
     // Register adapters - temporarily disabled
     // if (!Hive.isAdapterRegistered(0)) {
     //   Hive.registerAdapter(TeaLogAdapter());
     // }
-    
+
     // Open Hive boxes - temporarily disabled
     // final teaLogsBox = await Hive.openBox<TeaLog>(AppConstants.teaLogsBox);
 
     // Repository
-    sl.registerLazySingleton<TeaLogRepository>(
-      () => TeaLogRepositoryImpl(),
-    );
+    sl.registerLazySingleton<TeaLogRepository>(() => TeaLogRepositoryImpl());
 
     // Use cases
     sl.registerLazySingleton(() => GetTeaLogsUseCase(sl()));
@@ -42,4 +40,4 @@ Future<void> init() async {
     print('Stack trace: $stackTrace');
     rethrow;
   }
-} 
+}

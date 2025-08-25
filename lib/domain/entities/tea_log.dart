@@ -74,4 +74,4 @@ class TeaLog {
   String toString() {
     return 'TeaLog(id: $id, teaType: $teaType, caffeineMg: $caffeineMg, temperature: $temperature, dateTime: $dateTime, mood: $mood, amount: $amount, notes: $notes)';
   }
-} 
+}

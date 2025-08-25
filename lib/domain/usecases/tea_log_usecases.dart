@@ -99,4 +99,4 @@ class GetTeaTypeStatsByDateRangeUseCase {
   Future<Map<String, int>> call(DateTime startDate, DateTime endDate) async {
     return await repository.getTeaTypeStatsByDateRange(startDate, endDate);
   }
-} 
+}

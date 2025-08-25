@@ -85,7 +85,11 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
   Map<DateTime, List<TeaLog>> _groupTeaLogsByDate(List<TeaLog> teaLogs) {
     final events = <DateTime, List<TeaLog>>{};
     for (final teaLog in teaLogs) {
-      final date = DateTime(teaLog.dateTime.year, teaLog.dateTime.month, teaLog.dateTime.day);
+      final date = DateTime(
+        teaLog.dateTime.year,
+        teaLog.dateTime.month,
+        teaLog.dateTime.day,
+      );
       if (events[date] == null) events[date] = [];
       events[date]!.add(teaLog);
     }
@@ -98,7 +102,10 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
 
   Widget _buildEventList(DateTime selectedDay) {
     final events = _getEventsForDay(selectedDay);
-    final totalCaffeine = events.fold<int>(0, (sum, log) => sum + log.caffeineMg);
+    final totalCaffeine = events.fold<int>(
+      0,
+      (sum, log) => sum + log.caffeineMg,
+    );
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
@@ -130,41 +137,45 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
           ),
           const SizedBox(height: 16),
           if (events.isEmpty)
-            const Center(
-              child: Text('この日は記録がありません'),
-            )
+            const Center(child: Text('この日は記録がありません'))
           else
-            ...events.map((teaLog) => Card(
-              margin: const EdgeInsets.only(bottom: 8),
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: _getTeaTypeColor(teaLog.teaType),
-                  child: Text(
-                    teaLog.teaType[0].toUpperCase(),
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ),
-                title: Text('${teaLog.teaType}茶'),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('${teaLog.amount}ml • ${teaLog.caffeineMg}mg • ${teaLog.mood}'),
-                    if (teaLog.notes != null)
-                      Text(
-                        teaLog.notes!,
-                        style: Theme.of(context).textTheme.bodySmall,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+            ...events
+                .map(
+                  (teaLog) => Card(
+                    margin: const EdgeInsets.only(bottom: 8),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: _getTeaTypeColor(teaLog.teaType),
+                        child: Text(
+                          teaLog.teaType[0].toUpperCase(),
+                          style: const TextStyle(color: Colors.white),
+                        ),
                       ),
-                  ],
-                ),
-                trailing: Text(
-                  DateFormat('HH:mm').format(teaLog.dateTime),
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-                onTap: () => _showTeaLogDetail(teaLog),
-              ),
-            )).toList(),
+                      title: Text('${teaLog.teaType}茶'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${teaLog.amount}ml • ${teaLog.caffeineMg}mg • ${teaLog.mood}',
+                          ),
+                          if (teaLog.notes != null)
+                            Text(
+                              teaLog.notes!,
+                              style: Theme.of(context).textTheme.bodySmall,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                        ],
+                      ),
+                      trailing: Text(
+                        DateFormat('HH:mm').format(teaLog.dateTime),
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      onTap: () => _showTeaLogDetail(teaLog),
+                    ),
+                  ),
+                )
+                .toList(),
         ],
       ),
     );
@@ -193,4 +204,4 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
       builder: (context) => TeaLogDetailDialog(teaLog: teaLog),
     );
   }
-} 
+}

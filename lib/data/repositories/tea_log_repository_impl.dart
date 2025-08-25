@@ -12,8 +12,7 @@ class TeaLogRepositoryImpl implements TeaLogRepository {
 
   @override
   Future<List<TeaLog>> getAllTeaLogs() async {
-    return _teaLogs.toList()
-      ..sort((a, b) => b.dateTime.compareTo(a.dateTime));
+    return _teaLogs.toList()..sort((a, b) => b.dateTime.compareTo(a.dateTime));
   }
 
   @override
@@ -22,26 +21,49 @@ class TeaLogRepositoryImpl implements TeaLogRepository {
     final endOfDay = startOfDay.add(const Duration(days: 1));
 
     return _teaLogs
-        .where((log) => log.dateTime.isAfter(startOfDay) && log.dateTime.isBefore(endOfDay))
+        .where(
+          (log) =>
+              log.dateTime.isAfter(startOfDay) &&
+              log.dateTime.isBefore(endOfDay),
+        )
         .toList()
       ..sort((a, b) => b.dateTime.compareTo(a.dateTime));
   }
 
   @override
-  Future<List<TeaLog>> getTeaLogsByDateRange(DateTime startDate, DateTime endDate) async {
+  Future<List<TeaLog>> getTeaLogsByDateRange(
+    DateTime startDate,
+    DateTime endDate,
+  ) async {
     try {
       print('Getting tea logs by date range: $startDate to $endDate');
-      final startOfDay = DateTime(startDate.year, startDate.month, startDate.day);
-      final endOfDay = DateTime(endDate.year, endDate.month, endDate.day, 23, 59, 59);
-      
+      final startOfDay = DateTime(
+        startDate.year,
+        startDate.month,
+        startDate.day,
+      );
+      final endOfDay = DateTime(
+        endDate.year,
+        endDate.month,
+        endDate.day,
+        23,
+        59,
+        59,
+      );
+
       print('Filtering logs between: $startOfDay and $endOfDay');
       print('Total logs in repository: ${_teaLogs.length}');
 
-      final result = _teaLogs
-          .where((log) => log.dateTime.isAfter(startOfDay) && log.dateTime.isBefore(endOfDay))
-          .toList()
-        ..sort((a, b) => b.dateTime.compareTo(a.dateTime));
-      
+      final result =
+          _teaLogs
+              .where(
+                (log) =>
+                    log.dateTime.isAfter(startOfDay) &&
+                    log.dateTime.isBefore(endOfDay),
+              )
+              .toList()
+            ..sort((a, b) => b.dateTime.compareTo(a.dateTime));
+
       print('Filtered logs: ${result.length}');
       return result;
     } catch (e) {
@@ -84,7 +106,10 @@ class TeaLogRepositoryImpl implements TeaLogRepository {
   }
 
   @override
-  Future<Map<String, int>> getMoodStatsByDateRange(DateTime startDate, DateTime endDate) async {
+  Future<Map<String, int>> getMoodStatsByDateRange(
+    DateTime startDate,
+    DateTime endDate,
+  ) async {
     final logs = await getTeaLogsByDateRange(startDate, endDate);
     final moodStats = <String, int>{};
 
@@ -96,7 +121,10 @@ class TeaLogRepositoryImpl implements TeaLogRepository {
   }
 
   @override
-  Future<Map<String, int>> getTeaTypeStatsByDateRange(DateTime startDate, DateTime endDate) async {
+  Future<Map<String, int>> getTeaTypeStatsByDateRange(
+    DateTime startDate,
+    DateTime endDate,
+  ) async {
     final logs = await getTeaLogsByDateRange(startDate, endDate);
     final teaTypeStats = <String, int>{};
 
@@ -106,4 +134,4 @@ class TeaLogRepositoryImpl implements TeaLogRepository {
 
     return teaTypeStats;
   }
-} 
+}

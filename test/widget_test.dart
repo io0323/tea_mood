@@ -18,7 +18,7 @@ void main() {
 
     // Verify that our app title is displayed
     expect(find.text('TeaMood'), findsOneWidget);
-    
+
     // Verify that the home screen is displayed
     expect(find.byType(HomeScreen), findsOneWidget);
   });

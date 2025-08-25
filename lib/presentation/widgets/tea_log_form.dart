@@ -26,9 +26,12 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
   void initState() {
     super.initState();
     _selectedTeaType = widget.teaLog?.teaType ?? AppConstants.teaTypes.first;
-    _selectedAmount = widget.teaLog?.amount ?? AppConstants.defaultAmounts.first;
-    _temperature = widget.teaLog?.temperature ?? 
-        AppConstants.defaultTemperatures[_selectedTeaType] ?? 70;
+    _selectedAmount =
+        widget.teaLog?.amount ?? AppConstants.defaultAmounts.first;
+    _temperature =
+        widget.teaLog?.temperature ??
+        AppConstants.defaultTemperatures[_selectedTeaType] ??
+        70;
     _selectedMood = widget.teaLog?.mood ?? AppConstants.moods.first;
     _selectedDateTime = widget.teaLog?.dateTime ?? DateTime.now();
     _notesController.text = widget.teaLog?.notes ?? '';
@@ -83,7 +86,8 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                       onChanged: (value) {
                         setState(() {
                           _selectedTeaType = value!;
-                          _temperature = AppConstants.defaultTemperatures[value] ?? 70;
+                          _temperature =
+                              AppConstants.defaultTemperatures[value] ?? 70;
                         });
                       },
                     ),
@@ -163,13 +167,17 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                         final date = await showDatePicker(
                           context: context,
                           initialDate: _selectedDateTime,
-                          firstDate: DateTime.now().subtract(const Duration(days: 30)),
+                          firstDate: DateTime.now().subtract(
+                            const Duration(days: 30),
+                          ),
                           lastDate: DateTime.now().add(const Duration(days: 1)),
                         );
                         if (date != null) {
                           final time = await showTimePicker(
                             context: context,
-                            initialTime: TimeOfDay.fromDateTime(_selectedDateTime),
+                            initialTime: TimeOfDay.fromDateTime(
+                              _selectedDateTime,
+                            ),
                           );
                           if (time != null) {
                             setState(() {
@@ -210,10 +218,14 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                             ),
                             const SizedBox(height: 8),
                             LinearProgressIndicator(
-                              value: _calculateCaffeine() / 400, // 400mg is daily limit
+                              value:
+                                  _calculateCaffeine() /
+                                  400, // 400mg is daily limit
                               backgroundColor: Colors.grey[300],
                               valueColor: AlwaysStoppedAnimation<Color>(
-                                _calculateCaffeine() > 400 ? Colors.red : Colors.green,
+                                _calculateCaffeine() > 400
+                                    ? Colors.red
+                                    : Colors.green,
                               ),
                             ),
                             const SizedBox(height: 4),
@@ -262,7 +274,10 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                     ),
                     child: Text(
                       widget.teaLog == null ? '保存' : '更新',
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -302,14 +317,17 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
   }
 
   int _calculateCaffeine() {
-    final baseCaffeine = AppConstants.defaultCaffeineContent[_selectedTeaType] ?? 0;
+    final baseCaffeine =
+        AppConstants.defaultCaffeineContent[_selectedTeaType] ?? 0;
     return (baseCaffeine * _selectedAmount / 100).round();
   }
 
   void _saveTeaLog() {
     if (_formKey.currentState!.validate()) {
       final teaLog = TeaLog(
-        id: widget.teaLog?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
+        id:
+            widget.teaLog?.id ??
+            DateTime.now().millisecondsSinceEpoch.toString(),
         teaType: _selectedTeaType,
         caffeineMg: _calculateCaffeine(),
         temperature: _temperature,
@@ -328,4 +346,4 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
       Navigator.pop(context);
     }
   }
-} 
+}
