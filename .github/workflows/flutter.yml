@@ -28,8 +28,7 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: ${{ env.FLUTTER_VERSION }}
-        channel: 'stable'
+        channel: stable
         
     - name: Enable web
       run: flutter config --enable-web
@@ -43,7 +42,7 @@ jobs:
     - name: Enable Linux
       run: flutter config --enable-linux-desktop
       
-    - name: Get dependencies
+    - name: Install dependencies
       run: flutter pub get
       
     - name: Verify formatting
@@ -123,10 +122,9 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: ${{ env.FLUTTER_VERSION }}
-        channel: 'stable'
+        channel: stable
         
-    - name: Get dependencies
+    - name: Install dependencies
       run: flutter pub get
       
     - name: Run security audit
@@ -148,13 +146,12 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: ${{ env.FLUTTER_VERSION }}
-        channel: 'stable'
+        channel: stable
         
     - name: Enable web
       run: flutter config --enable-web
       
-    - name: Get dependencies
+    - name: Install dependencies
       run: flutter pub get
       
     - name: Build Web
