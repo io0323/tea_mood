@@ -10,6 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:tea_mood/main.dart';
+import 'package:tea_mood/presentation/screens/home_screen.dart';
 
 void main() {
   testWidgets('TeaMood app smoke test', (WidgetTester tester) async {
