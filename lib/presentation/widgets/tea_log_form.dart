@@ -173,25 +173,27 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                           lastDate: DateTime.now().add(const Duration(days: 1)),
                         );
                         if (!mounted) return;
-                        if (date != null) {
-                          final time = await showTimePicker(
-                            context: context,
-                            initialTime: TimeOfDay.fromDateTime(
-                              _selectedDateTime,
-                            ),
-                          );
-                          if (!mounted) return;
-                          if (time != null) {
-                            setState(() {
-                              _selectedDateTime = DateTime(
-                                date.year,
-                                date.month,
-                                date.day,
-                                time.hour,
-                                time.minute,
-                              );
-                            });
-                          }
+                        if (date == null) return;
+                        
+                        if (!mounted) return;
+                        final time = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.fromDateTime(
+                            _selectedDateTime,
+                          ),
+                        );
+                        // Combined mounted check and setState immediately after showTimePicker
+                        if (!mounted) return;
+                        if (time != null) {
+                          setState(() {
+                            _selectedDateTime = DateTime(
+                              date.year,
+                              date.month,
+                              date.day,
+                              time.hour,
+                              time.minute,
+                            );
+                          });
                         }
                       },
                     ),
