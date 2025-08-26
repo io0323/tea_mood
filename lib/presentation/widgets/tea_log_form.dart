@@ -168,18 +168,14 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                         final date = await showDatePicker(
                           context: pickerContext,
                           initialDate: _selectedDateTime,
-                          firstDate: DateTime.now().subtract(
-                            const Duration(days: 30),
-                          ),
+                          firstDate: DateTime.now().subtract(const Duration(days: 30)),
                           lastDate: DateTime.now().add(const Duration(days: 1)),
                         );
                         if (!mounted) return;
                         if (date != null) {
                           final time = await showTimePicker(
-                            context: pickerContext,
-                            initialTime: TimeOfDay.fromDateTime(
-                              _selectedDateTime,
-                            ),
+                            context: context,
+                            initialTime: TimeOfDay.fromDateTime(_selectedDateTime),
                           );
                           if (!mounted) return;
                           if (time != null) {
@@ -325,7 +321,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
     return (baseCaffeine * _selectedAmount / 100).round();
   }
 
-  void _saveTeaLog() {
+  void _saveTeaLog() async {
     if (_formKey.currentState!.validate()) {
       final teaLog = TeaLog(
         id:
@@ -341,11 +337,12 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
       );
 
       if (widget.teaLog == null) {
-        ref.read(teaLogNotifierProvider.notifier).addTeaLog(teaLog);
+        await ref.read(teaLogNotifierProvider.notifier).addTeaLog(teaLog);
       } else {
-        ref.read(teaLogNotifierProvider.notifier).updateTeaLog(teaLog);
+        await ref.read(teaLogNotifierProvider.notifier).updateTeaLog(teaLog);
       }
 
+      if (!mounted) return;
       Navigator.pop(context);
     }
   }
