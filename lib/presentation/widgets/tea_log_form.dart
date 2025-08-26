@@ -174,7 +174,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                         if (!mounted) return;
                         if (date != null) {
                           final time = await showTimePicker(
-                            context: context,
+                            context: pickerContext,
                             initialTime: TimeOfDay.fromDateTime(_selectedDateTime),
                           );
                           if (!mounted) return;
