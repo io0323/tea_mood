@@ -180,8 +180,8 @@ class TeaLogDetailDialog extends ConsumerWidget {
             child: const Text('キャンセル'),
           ),
           TextButton(
-            onPressed: () {
-              ref.read(teaLogNotifierProvider.notifier).deleteTeaLog(teaLog.id);
+            onPressed: () async {
+              await ref.read(teaLogNotifierProvider.notifier).deleteTeaLog(teaLog.id);
               Navigator.pop(context); // Close confirmation dialog
               Navigator.pop(context); // Close detail dialog
             },
