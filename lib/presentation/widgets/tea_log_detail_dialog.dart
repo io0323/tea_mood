@@ -182,7 +182,10 @@ class TeaLogDetailDialog extends ConsumerWidget {
           TextButton(
             onPressed: () async {
               await ref.read(teaLogNotifierProvider.notifier).deleteTeaLog(teaLog.id);
+              if (!context.mounted) return;
+              // ignore: use_build_context_synchronously
               Navigator.pop(context); // Close confirmation dialog
+              // ignore: use_build_context_synchronously
               Navigator.pop(context); // Close detail dialog
             },
             child: const Text('削除'),
