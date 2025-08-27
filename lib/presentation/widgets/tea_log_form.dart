@@ -80,7 +80,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                       items: AppConstants.teaTypes.map((type) {
                         return DropdownMenuItem(
                           value: type,
-                          child: Text('${type}茶'),
+                          child: Text('$type茶'),
                         );
                       }).toList(),
                       onChanged: (value) {
@@ -103,7 +103,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                       items: AppConstants.defaultAmounts.map((amount) {
                         return DropdownMenuItem(
                           value: amount,
-                          child: Text('${amount}ml'),
+                          child: Text('$amount ml'),
                         );
                       }).toList(),
                       onChanged: (value) {
@@ -118,13 +118,13 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('温度: ${_temperature}°C'),
+                        Text('温度: $_temperature°C'),
                         Slider(
                           value: _temperature.toDouble(),
                           min: 50,
                           max: 100,
                           divisions: 50,
-                          label: '${_temperature}°C',
+                          label: '$_temperature°C',
                           onChanged: (value) {
                             setState(() {
                               _temperature = value.round();
@@ -346,4 +346,3 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
       Navigator.pop(context);
     }
   }
-}
