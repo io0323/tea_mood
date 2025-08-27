@@ -172,7 +172,6 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                         );
                         if (!mounted) return;
                         if (date != null) {
-                          // ignore: use_build_context_synchronously
                           final time = await showTimePicker(
                             context: context,
                             initialTime: TimeOfDay.fromDateTime(_selectedDateTime),
@@ -249,101 +248,5 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
               color: Theme.of(context).scaffoldBackgroundColor,
               border: Border(
                 top: BorderSide(
-                  color: Theme.of(context).dividerColor,
-                  width: 1,
-                ),
-              ),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('キャンセル'),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: _saveTeaLog,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                    ),
-                    child: Text(
-                      widget.teaLog == null ? '保存' : '更新',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  String _getMoodDisplayName(String mood) {
-    switch (mood) {
-      case 'relaxed':
-        return 'リラックス';
-      case 'focused':
-        return '集中';
-      case 'energized':
-        return '元気';
-      case 'calm':
-        return '落ち着き';
-      case 'stressed':
-        return 'ストレス';
-      case 'happy':
-        return '幸せ';
-      case 'tired':
-        return '疲れ';
-      case 'alert':
-        return '覚醒';
-      case 'peaceful':
-        return '平和';
-      case 'anxious':
-        return '不安';
-      default:
-        return mood;
-    }
-  }
-
-  int _calculateCaffeine() {
-    final baseCaffeine =
-        AppConstants.defaultCaffeineContent[_selectedTeaType] ?? 0;
-    return (baseCaffeine * _selectedAmount / 100).round();
-  }
-
-  void _saveTeaLog() async {
-    if (_formKey.currentState!.validate()) {
-      final teaLog = TeaLog(
-        id:
-            widget.teaLog?.id ??
-            DateTime.now().millisecondsSinceEpoch.toString(),
-        teaType: _selectedTeaType,
-        caffeineMg: _calculateCaffeine(),
-        temperature: _temperature,
-        dateTime: _selectedDateTime,
-        mood: _selectedMood,
-        amount: _selectedAmount,
-        notes: _notesController.text.isEmpty ? null : _notesController.text,
-      );
-
-      if (widget.teaLog == null) {
-        await ref.read(teaLogNotifierProvider.notifier).addTeaLog(teaLog);
-      } else {
-        await ref.read(teaLogNotifierProvider.notifier).updateTeaLog(teaLog);
-      }
-
-      if (!mounted) return;
-      Navigator.pop(context);
-    }
-  }
-}
+_*
+
