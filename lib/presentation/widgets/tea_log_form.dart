@@ -164,29 +164,35 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                       ),
                       trailing: const Icon(Icons.calendar_today),
                       onTap: () async {
+                        final currentContext = context;
+                        final now = DateTime.now();
+                        final selectedDateTime = _selectedDateTime;
                         final date = await showDatePicker(
-                          context: context,
-                          initialDate: _selectedDateTime,
-                          firstDate: DateTime.now().subtract(const Duration(days: 30)),
-                          lastDate: DateTime.now().add(const Duration(days: 1)),
+                          context: currentContext,
+                          initialDate: selectedDateTime,
+                          firstDate: now.subtract(const Duration(days: 30)),
+                          lastDate: now.add(const Duration(days: 1)),
                         );
                         if (!mounted) return;
                         if (date != null) {
                           final time = await showTimePicker(
-                            context: context,
-                            initialTime: TimeOfDay.fromDateTime(_selectedDateTime),
+                            context: currentContext,
+                            initialTime: TimeOfDay.fromDateTime(selectedDateTime),
                           );
                           if (!mounted) return;
-                          if (time != null) {
-                            setState(() {
-                              _selectedDateTime = DateTime(
-                                date.year,
-                                date.month,
-                                date.day,
-                                time.hour,
-                                time.minute,
-                              );
-                            });
+                          if (time != null && mounted) {
+                            final newDateTime = DateTime(
+                              date.year,
+                              date.month,
+                              date.day,
+                              time.hour,
+                              time.minute,
+                            );
+                            if (mounted) {
+                              setState(() {
+                                _selectedDateTime = newDateTime;
+                              });
+                            }
                           }
                         }
                       },
