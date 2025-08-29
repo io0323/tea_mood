@@ -80,15 +80,17 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                       items: AppConstants.teaTypes.map((type) {
                         return DropdownMenuItem(
                           value: type,
-                          child: Text('${type}茶'),
+                          child: Text('$type茶'),
                         );
                       }).toList(),
                       onChanged: (value) {
-                        setState(() {
-                          _selectedTeaType = value!;
-                          _temperature =
-                              AppConstants.defaultTemperatures[value] ?? 70;
-                        });
+                        if (value != null) {
+                          setState(() {
+                            _selectedTeaType = value;
+                            _temperature =
+                                AppConstants.defaultTemperatures[value] ?? 70;
+                          });
+                        }
                       },
                     ),
                     const SizedBox(height: 16),
@@ -103,13 +105,15 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                       items: AppConstants.defaultAmounts.map((amount) {
                         return DropdownMenuItem(
                           value: amount,
-                          child: Text('${amount}ml'),
+                          child: Text('$amount ml'),
                         );
                       }).toList(),
                       onChanged: (value) {
-                        setState(() {
-                          _selectedAmount = value!;
-                        });
+                        if (value != null) {
+                          setState(() {
+                            _selectedAmount = value;
+                          });
+                        }
                       },
                     ),
                     const SizedBox(height: 16),
@@ -118,13 +122,13 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('温度: ${_temperature}°C'),
+                        Text('温度: $_temperature°C'),
                         Slider(
                           value: _temperature.toDouble(),
                           min: 50,
                           max: 100,
                           divisions: 50,
-                          label: '${_temperature}°C',
+                          label: '$_temperature°C',
                           onChanged: (value) {
                             setState(() {
                               _temperature = value.round();
@@ -149,9 +153,11 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                         );
                       }).toList(),
                       onChanged: (value) {
-                        setState(() {
-                          _selectedMood = value!;
-                        });
+                        if (value != null) {
+                          setState(() {
+                            _selectedMood = value;
+                          });
+                        }
                       },
                     ),
                     const SizedBox(height: 16),
