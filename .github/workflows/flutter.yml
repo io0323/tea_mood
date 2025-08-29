@@ -1,4 +1,4 @@
-name: Flutter Analyze Only (Network Optimized)
+name: Flutter Analyze Only (No Network Required)
 
 on:
   push:
@@ -8,38 +8,34 @@ on:
 
 jobs:
   analyze:
-    name: Analyze
+    name: Analyze (Dart Only)
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Flutterのセットアップをスキップし、Dartのみを使用
+      # Dartのみを使用（Flutterのセットアップは一切行わない）
       - name: Set up Dart
         uses: dart-lang/setup-dart@v1
         with:
           sdk: stable
 
-      # ネットワークアクセスを必要とする依存取得やテスト、ビルド等のステップは全て除外
+      # ネットワークアクセスを必要とする依存取得は除外
       # - name: Install dependencies
       #   run: dart pub get
 
-      # - name: Verify formatting
-      #   run: dart format --output=none --set-exit-if-changed .
+      # コードフォーマットの検証（ネットワーク不要）
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
 
       # Dartの静的解析のみ実行（Flutterのセットアップ不要）
       - name: Analyze project source with Dart
         run: dart analyze
 
-      # 必要に応じて、Flutterの静的解析も実行可能
-      # - name: Set up Flutter (if network allows)
-      #   uses: subosito/flutter-action@v2
-      #   with:
-      #     channel: stable
-      #     cache: true
-      #     cache-key: flutter-3.32.6
-      #     cache-path: ${{ github.workspace }}/.pub-cache
-
-      # - name: Analyze project source with Flutter
-      #   run: flutter analyze
+      # 結果のサマリー表示
+      - name: Analysis Summary
+        run: |
+          echo "✅ Dart static analysis completed successfully"
+          echo "📊 No network access required for this workflow"
+          echo "🔒 Firewall restrictions bypassed by using Dart only"

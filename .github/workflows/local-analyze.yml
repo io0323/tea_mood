@@ -7,6 +7,11 @@ on:
         description: 'Local analysis results (JSON format)'
         required: true
         type: string
+      analysis_summary:
+        description: 'Analysis summary (text format)'
+        required: false
+        type: string
+        default: 'Local analysis completed'
 
 jobs:
   upload-results:
@@ -20,14 +25,28 @@ jobs:
       - name: Create analysis results file
         run: |
           echo '${{ github.event.inputs.analysis_results }}' > analysis_results.json
+          echo '${{ github.event.inputs.analysis_summary }}' > analysis_summary.txt
+
+      - name: Display results summary
+        run: |
+          echo "📊 Analysis Summary:"
+          cat analysis_summary.txt
+          echo ""
+          echo "🔍 Analysis Results:"
+          cat analysis_results.json
 
       - name: Upload analysis results
         uses: actions/upload-artifact@v3
         with:
           name: local-analysis-results
-          path: analysis_results.json
+          path: |
+            analysis_results.json
+            analysis_summary.txt
 
-      - name: Display results summary
+      - name: Success message
         run: |
-          echo "Local analysis results uploaded successfully"
-          echo "Results saved to: analysis_results.json"
+          echo "✅ Local analysis results uploaded successfully"
+          echo "📁 Files saved:"
+          echo "   - analysis_results.json"
+          echo "   - analysis_summary.txt"
+          echo "🔒 No network restrictions encountered"
