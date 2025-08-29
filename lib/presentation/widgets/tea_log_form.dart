@@ -72,7 +72,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
 
                     // Tea Type Selection
                     DropdownButtonFormField<String>(
-                      value: _selectedTeaType,
+                      initialValue: _selectedTeaType,
                       decoration: const InputDecoration(
                         labelText: 'お茶の種類',
                         border: OutlineInputBorder(),
@@ -97,7 +97,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
 
                     // Amount Selection
                     DropdownButtonFormField<int>(
-                      value: _selectedAmount,
+                      initialValue: _selectedAmount,
                       decoration: const InputDecoration(
                         labelText: '量 (ml)',
                         border: OutlineInputBorder(),
@@ -141,7 +141,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
 
                     // Mood Selection
                     DropdownButtonFormField<String>(
-                      value: _selectedMood,
+                      initialValue: _selectedMood,
                       decoration: const InputDecoration(
                         labelText: '気分',
                         border: OutlineInputBorder(),
@@ -170,11 +170,10 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                       ),
                       trailing: const Icon(Icons.calendar_today),
                       onTap: () async {
-                        final currentContext = context;
                         final now = DateTime.now();
                         final selectedDateTime = _selectedDateTime;
                         final date = await showDatePicker(
-                          context: currentContext,
+                          context: context,
                           initialDate: selectedDateTime,
                           firstDate: now.subtract(const Duration(days: 30)),
                           lastDate: now.add(const Duration(days: 1)),
@@ -182,11 +181,11 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                         if (!mounted) return;
                         if (date != null) {
                           final time = await showTimePicker(
-                            context: currentContext,
+                            context: context,
                             initialTime: TimeOfDay.fromDateTime(selectedDateTime),
                           );
                           if (!mounted) return;
-                          if (time != null && mounted) {
+                          if (time != null) {
                             final newDateTime = DateTime(
                               date.year,
                               date.month,
