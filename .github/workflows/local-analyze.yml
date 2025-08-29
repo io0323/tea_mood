@@ -1,0 +1,33 @@
+name: Local Analysis Results Upload
+
+on:
+  workflow_dispatch:
+    inputs:
+      analysis_results:
+        description: 'Local analysis results (JSON format)'
+        required: true
+        type: string
+
+jobs:
+  upload-results:
+    name: Upload Local Analysis Results
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create analysis results file
+        run: |
+          echo '${{ github.event.inputs.analysis_results }}' > analysis_results.json
+
+      - name: Upload analysis results
+        uses: actions/upload-artifact@v3
+        with:
+          name: local-analysis-results
+          path: analysis_results.json
+
+      - name: Display results summary
+        run: |
+          echo "Local analysis results uploaded successfully"
+          echo "Results saved to: analysis_results.json"

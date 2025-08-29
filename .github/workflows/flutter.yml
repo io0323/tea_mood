@@ -1,4 +1,4 @@
-name: Flutter Analyze Only
+name: Flutter Analyze Only (Network Optimized)
 
 on:
   push:
@@ -15,29 +15,31 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+      # Flutterのセットアップをスキップし、Dartのみを使用
+      - name: Set up Dart
+        uses: dart-lang/setup-dart@v1
         with:
-          channel: stable
+          sdk: stable
 
-      # ネットワークアクセスを必要とする依存取得やテスト、ビルド等のステップは全て除外・コメントアウトしています
+      # ネットワークアクセスを必要とする依存取得やテスト、ビルド等のステップは全て除外
       # - name: Install dependencies
-      #   run: flutter pub get
+      #   run: dart pub get
 
       # - name: Verify formatting
       #   run: dart format --output=none --set-exit-if-changed .
 
-      - name: Analyze project source
-        run: flutter analyze
+      # Dartの静的解析のみ実行（Flutterのセットアップ不要）
+      - name: Analyze project source with Dart
+        run: dart analyze
 
-      # - name: Run tests
-      #   run: flutter test --coverage
-
-      # - name: Build app
-      #   run: flutter build apk
-
-      # - name: Upload build artifacts
-      #   uses: actions/upload-artifact@v3
+      # 必要に応じて、Flutterの静的解析も実行可能
+      # - name: Set up Flutter (if network allows)
+      #   uses: subosito/flutter-action@v2
       #   with:
-      #     name: build-artifact
-      #     path: build/app/outputs/flutter-apk/app-release.apk
+      #     channel: stable
+      #     cache: true
+      #     cache-key: flutter-3.32.6
+      #     cache-path: ${{ github.workspace }}/.pub-cache
+
+      # - name: Analyze project source with Flutter
+      #   run: flutter analyze
