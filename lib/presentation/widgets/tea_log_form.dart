@@ -72,7 +72,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
 
                     // Tea Type Selection
                     DropdownButtonFormField<String>(
-                      initialValue: _selectedTeaType,
+                      value: _selectedTeaType,
                       decoration: const InputDecoration(
                         labelText: 'お茶の種類',
                         border: OutlineInputBorder(),
@@ -97,7 +97,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
 
                     // Amount Selection
                     DropdownButtonFormField<int>(
-                      initialValue: _selectedAmount,
+                      value: _selectedAmount,
                       decoration: const InputDecoration(
                         labelText: '量 (ml)',
                         border: OutlineInputBorder(),
@@ -141,7 +141,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
 
                     // Mood Selection
                     DropdownButtonFormField<String>(
-                      initialValue: _selectedMood,
+                      value: _selectedMood,
                       decoration: const InputDecoration(
                         labelText: '気分',
                         border: OutlineInputBorder(),
@@ -182,9 +182,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                         if (date != null) {
                           final time = await showTimePicker(
                             context: context,
-                            initialTime: TimeOfDay.fromDateTime(
-                              _selectedDateTime,
-                            ),
+                            initialTime: TimeOfDay.fromDateTime(_selectedDateTime),
                           );
                           if (!mounted) return;
                           if (time != null) {
