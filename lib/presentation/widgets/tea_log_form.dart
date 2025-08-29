@@ -188,18 +188,15 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                           );
                           if (!mounted) return;
                           if (time != null) {
-                            final newDateTime = DateTime(
-                              date.year,
-                              date.month,
-                              date.day,
-                              time.hour,
-                              time.minute,
-                            );
-                            if (mounted) {
-                              setState(() {
-                                _selectedDateTime = newDateTime;
-                              });
-                            }
+                            setState(() {
+                              _selectedDateTime = DateTime(
+                                date.year,
+                                date.month,
+                                date.day,
+                                time.hour,
+                                time.minute,
+                              );
+                            });
                           }
                         }
                       },
