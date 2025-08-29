@@ -170,11 +170,10 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                       ),
                       trailing: const Icon(Icons.calendar_today),
                       onTap: () async {
-                        final currentContext = context;
                         final now = DateTime.now();
                         final selectedDateTime = _selectedDateTime;
                         final date = await showDatePicker(
-                          context: currentContext,
+                          context: context,
                           initialDate: selectedDateTime,
                           firstDate: now.subtract(const Duration(days: 30)),
                           lastDate: now.add(const Duration(days: 1)),
@@ -182,7 +181,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                         if (!mounted) return;
                         if (date != null) {
                           final time = await showTimePicker(
-                            context: currentContext,
+                            context: context,
                             initialTime: TimeOfDay.fromDateTime(selectedDateTime),
                           );
                           if (!mounted) return;
