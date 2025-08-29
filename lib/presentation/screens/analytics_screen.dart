@@ -46,7 +46,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('${_selectedPeriod}日間'),
+                  Text('$_selectedPeriod日間'),
                   const Icon(Icons.arrow_drop_down),
                 ],
               ),
