@@ -43,7 +43,7 @@ void main() {
       // The ListTile should be tappable (this tests that our mounted checks don't break the UI)
       await tester.tap(dateTimeListTile);
       await tester.pump();
-      
+
       // Note: We can't easily test the actual date/time picker dialogs in widget tests
       // without more complex mocking, but this verifies the UI doesn't crash
     });
