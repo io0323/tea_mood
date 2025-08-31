@@ -29,7 +29,6 @@ final teaLogsByDateRangeProvider =
         );
         return result;
       } catch (e) {
-        print('Error in teaLogsByDateRangeProvider: $e');
         rethrow;
       }
     });
