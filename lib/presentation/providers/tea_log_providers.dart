@@ -23,18 +23,12 @@ final teaLogsByDateRangeProvider =
       ({DateTime startDate, DateTime endDate})
     >((ref, params) async {
       try {
-        print(
-          'Calling GetTeaLogsByDateRangeUseCase: ${params.startDate} to ${params.endDate}',
-        );
         final result = await sl<GetTeaLogsByDateRangeUseCase>().call(
           params.startDate,
           params.endDate,
         );
-        print('GetTeaLogsByDateRangeUseCase result: ${result.length} logs');
         return result;
       } catch (e, stackTrace) {
-        print('Error in teaLogsByDateRangeProvider: $e');
-        print('Stack trace: $stackTrace');
         rethrow;
       }
     });
