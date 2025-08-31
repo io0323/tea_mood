@@ -32,9 +32,8 @@ final teaLogsByDateRangeProvider =
         );
         print('GetTeaLogsByDateRangeUseCase result: ${result.length} logs');
         return result;
-      } catch (e, stackTrace) {
+      } catch (e) {
         print('Error in teaLogsByDateRangeProvider: $e');
-        print('Stack trace: $stackTrace');
         rethrow;
       }
     });
