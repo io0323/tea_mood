@@ -36,7 +36,6 @@ class TeaLogRepositoryImpl implements TeaLogRepository {
     DateTime endDate,
   ) async {
     try {
-      print('Getting tea logs by date range: $startDate to $endDate');
       final startOfDay = DateTime(
         startDate.year,
         startDate.month,
@@ -51,9 +50,6 @@ class TeaLogRepositoryImpl implements TeaLogRepository {
         59,
       );
 
-      print('Filtering logs between: $startOfDay and $endOfDay');
-      print('Total logs in repository: ${_teaLogs.length}');
-
       final result =
           _teaLogs
               .where(
@@ -64,10 +60,8 @@ class TeaLogRepositoryImpl implements TeaLogRepository {
               .toList()
             ..sort((a, b) => b.dateTime.compareTo(a.dateTime));
 
-      print('Filtered logs: ${result.length}');
       return result;
     } catch (e) {
-      print('Error in getTeaLogsByDateRange: $e');
       rethrow;
     }
   }
