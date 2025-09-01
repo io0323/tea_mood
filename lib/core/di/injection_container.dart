@@ -1,8 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import '../../core/constants/app_constants.dart';
 import '../../data/repositories/tea_log_repository_impl.dart';
-import '../../domain/entities/tea_log.dart';
 import '../../domain/repositories/tea_log_repository.dart';
 import '../../domain/usecases/tea_log_usecases.dart';
 
@@ -35,9 +33,8 @@ Future<void> init() async {
     sl.registerLazySingleton(() => GetTotalCaffeineByDateUseCase(sl()));
     sl.registerLazySingleton(() => GetMoodStatsByDateRangeUseCase(sl()));
     sl.registerLazySingleton(() => GetTeaTypeStatsByDateRangeUseCase(sl()));
-  } catch (e, stackTrace) {
-    print('DI initialization error: $e');
-    print('Stack trace: $stackTrace');
+  } catch (e) {
+    // DI initialization error handling
     rethrow;
   }
 }

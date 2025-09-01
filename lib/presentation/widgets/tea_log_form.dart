@@ -72,7 +72,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
 
                     // Tea Type Selection
                     DropdownButtonFormField<String>(
-                      initialValue: _selectedTeaType,
+                      value: _selectedTeaType,
                       decoration: const InputDecoration(
                         labelText: 'お茶の種類',
                         border: OutlineInputBorder(),
@@ -97,7 +97,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
 
                     // Amount Selection
                     DropdownButtonFormField<int>(
-                      initialValue: _selectedAmount,
+                      value: _selectedAmount,
                       decoration: const InputDecoration(
                         labelText: '量 (ml)',
                         border: OutlineInputBorder(),
@@ -141,7 +141,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
 
                     // Mood Selection
                     DropdownButtonFormField<String>(
-                      initialValue: _selectedMood,
+                      value: _selectedMood,
                       decoration: const InputDecoration(
                         labelText: '気分',
                         border: OutlineInputBorder(),
@@ -169,38 +169,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                         '${_selectedDateTime.year}/${_selectedDateTime.month.toString().padLeft(2, '0')}/${_selectedDateTime.day.toString().padLeft(2, '0')} ${_selectedDateTime.hour.toString().padLeft(2, '0')}:${_selectedDateTime.minute.toString().padLeft(2, '0')}',
                       ),
                       trailing: const Icon(Icons.calendar_today),
-                      onTap: () async {
-                        if (!mounted) return;
-                        final date = await showDatePicker(
-                          context: context,
-                          initialDate: _selectedDateTime,
-                          firstDate: DateTime.now().subtract(
-                            const Duration(days: 30),
-                          ),
-                          lastDate: DateTime.now().add(const Duration(days: 1)),
-                        );
-                        if (!mounted) return;
-                        if (date != null) {
-                          if (!mounted) return;
-                          final time = await showTimePicker(
-                            context: context,
-                            initialTime: TimeOfDay.fromDateTime(_selectedDateTime),
-                          );
-                          if (!mounted) return;
-                          if (time != null) {
-                            if (!mounted) return;
-                            setState(() {
-                              _selectedDateTime = DateTime(
-                                date.year,
-                                date.month,
-                                date.day,
-                                time.hour,
-                                time.minute,
-                              );
-                            });
-                          }
-                        }
-                      },
+                      onTap: _selectDateTime,
                     ),
                     const SizedBox(height: 16),
 
@@ -331,6 +300,36 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
     return (baseCaffeine * _selectedAmount / 100).round();
   }
 
+  Future<void> _selectDateTime() async {
+    final date = await showDatePicker(
+      context: context,
+      initialDate: _selectedDateTime,
+      firstDate: DateTime.now().subtract(
+        const Duration(days: 30),
+      ),
+      lastDate: DateTime.now().add(const Duration(days: 1)),
+    );
+    if (!mounted) return;
+    if (date != null) {
+      final time = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.fromDateTime(_selectedDateTime),
+      );
+      if (!mounted) return;
+      if (time != null) {
+        setState(() {
+          _selectedDateTime = DateTime(
+            date.year,
+            date.month,
+            date.day,
+            time.hour,
+            time.minute,
+          );
+        });
+      }
+    }
+  }
+
   void _saveTeaLog() async {
     if (_formKey.currentState!.validate()) {
       final teaLog = TeaLog(
@@ -352,8 +351,9 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
         await ref.read(teaLogNotifierProvider.notifier).updateTeaLog(teaLog);
       }
 
-      if (!mounted) return;
-      Navigator.pop(context);
+      if (mounted) {
+        Navigator.pop(context);
+      }
     }
   }
 }
