@@ -301,9 +301,8 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
   }
 
   Future<void> _selectDateTime() async {
-    final currentContext = context;
     final date = await showDatePicker(
-      context: currentContext,
+      context: context,
       initialDate: _selectedDateTime,
       firstDate: DateTime.now().subtract(const Duration(days: 30)),
       lastDate: DateTime.now().add(const Duration(days: 1)),
@@ -311,7 +310,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
     if (!mounted) return;
     if (date != null) {
       final time = await showTimePicker(
-        context: currentContext,
+        context: context,
         initialTime: TimeOfDay.fromDateTime(_selectedDateTime),
       );
       if (!mounted) return;
