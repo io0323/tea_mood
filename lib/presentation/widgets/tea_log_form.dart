@@ -304,9 +304,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
     final date = await showDatePicker(
       context: context,
       initialDate: _selectedDateTime,
-      firstDate: DateTime.now().subtract(
-        const Duration(days: 30),
-      ),
+      firstDate: DateTime.now().subtract(const Duration(days: 30)),
       lastDate: DateTime.now().add(const Duration(days: 1)),
     );
     if (!mounted) return;
