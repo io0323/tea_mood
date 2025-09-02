@@ -6,15 +6,13 @@ import 'package:tea_mood/presentation/widgets/tea_log_form.dart';
 
 void main() {
   group('TeaLogForm Widget Tests', () {
-    testWidgets('TeaLogForm should build without errors', (WidgetTester tester) async {
+    testWidgets('TeaLogForm should build without errors', (
+      WidgetTester tester,
+    ) async {
       // Build our widget
       await tester.pumpWidget(
         ProviderScope(
-          child: MaterialApp(
-            home: Scaffold(
-              body: TeaLogForm(),
-            ),
-          ),
+          child: MaterialApp(home: Scaffold(body: TeaLogForm())),
         ),
       );
 
@@ -24,15 +22,13 @@ void main() {
       expect(find.byIcon(Icons.calendar_today), findsOneWidget);
     });
 
-    testWidgets('DateTime picker ListTile should be tappable', (WidgetTester tester) async {
+    testWidgets('DateTime picker ListTile should be tappable', (
+      WidgetTester tester,
+    ) async {
       // Build our widget
       await tester.pumpWidget(
         ProviderScope(
-          child: MaterialApp(
-            home: Scaffold(
-              body: TeaLogForm(),
-            ),
-          ),
+          child: MaterialApp(home: Scaffold(body: TeaLogForm())),
         ),
       );
 
@@ -43,7 +39,7 @@ void main() {
       // The ListTile should be tappable (this tests that our mounted checks don't break the UI)
       await tester.tap(dateTimeListTile);
       await tester.pump();
-      
+
       // Note: We can't easily test the actual date/time picker dialogs in widget tests
       // without more complex mocking, but this verifies the UI doesn't crash
     });

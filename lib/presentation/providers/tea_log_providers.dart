@@ -28,7 +28,7 @@ final teaLogsByDateRangeProvider =
           params.endDate,
         );
         return result;
-      } catch (e, stackTrace) {
+      } catch (e) {
         rethrow;
       }
     });

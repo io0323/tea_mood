@@ -139,43 +139,41 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
           if (events.isEmpty)
             const Center(child: Text('この日は記録がありません'))
           else
-            ...events
-                .map(
-                  (teaLog) => Card(
-                    margin: const EdgeInsets.only(bottom: 8),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: _getTeaTypeColor(teaLog.teaType),
-                        child: Text(
-                          teaLog.teaType[0].toUpperCase(),
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      title: Text('${teaLog.teaType}茶'),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${teaLog.amount}ml • ${teaLog.caffeineMg}mg • ${teaLog.mood}',
-                          ),
-                          if (teaLog.notes != null)
-                            Text(
-                              teaLog.notes!,
-                              style: Theme.of(context).textTheme.bodySmall,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                        ],
-                      ),
-                      trailing: Text(
-                        DateFormat('HH:mm').format(teaLog.dateTime),
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                      onTap: () => _showTeaLogDetail(teaLog),
+            ...events.map(
+              (teaLog) => Card(
+                margin: const EdgeInsets.only(bottom: 8),
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: _getTeaTypeColor(teaLog.teaType),
+                    child: Text(
+                      teaLog.teaType[0].toUpperCase(),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
-                )
-                .toList(),
+                  title: Text('${teaLog.teaType}茶'),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${teaLog.amount}ml • ${teaLog.caffeineMg}mg • ${teaLog.mood}',
+                      ),
+                      if (teaLog.notes != null)
+                        Text(
+                          teaLog.notes!,
+                          style: Theme.of(context).textTheme.bodySmall,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                    ],
+                  ),
+                  trailing: Text(
+                    DateFormat('HH:mm').format(teaLog.dateTime),
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  onTap: () => _showTeaLogDetail(teaLog),
+                ),
+              ),
+            ),
         ],
       ),
     );

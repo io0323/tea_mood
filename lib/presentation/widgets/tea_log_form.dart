@@ -71,49 +71,75 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                     const SizedBox(height: 16),
 
                     // Tea Type Selection
-                    DropdownButtonFormField<String>(
-                      value: _selectedTeaType,
-                      decoration: const InputDecoration(
-                        labelText: 'お茶の種類',
-                        border: OutlineInputBorder(),
-                      ),
-                      items: AppConstants.teaTypes.map((type) {
-                        return DropdownMenuItem(
-                          value: type,
-                          child: Text('$type茶'),
+                    FormField<String>(
+                      initialValue: _selectedTeaType,
+                      builder: (FormFieldState<String> state) {
+                        return InputDecorator(
+                          decoration: InputDecoration(
+                            labelText: 'お茶の種類',
+                            border: const OutlineInputBorder(),
+                            errorText: state.hasError ? state.errorText : null,
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              value: _selectedTeaType,
+                              isDense: true,
+                              items: AppConstants.teaTypes.map((type) {
+                                return DropdownMenuItem(
+                                  value: type,
+                                  child: Text('$type茶'),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                if (value != null) {
+                                  setState(() {
+                                    _selectedTeaType = value;
+                                    _temperature =
+                                        AppConstants
+                                            .defaultTemperatures[value] ??
+                                        70;
+                                  });
+                                  state.didChange(value);
+                                }
+                              },
+                            ),
+                          ),
                         );
-                      }).toList(),
-                      onChanged: (value) {
-                        if (value != null) {
-                          setState(() {
-                            _selectedTeaType = value;
-                            _temperature =
-                                AppConstants.defaultTemperatures[value] ?? 70;
-                          });
-                        }
                       },
                     ),
                     const SizedBox(height: 16),
 
                     // Amount Selection
-                    DropdownButtonFormField<int>(
-                      value: _selectedAmount,
-                      decoration: const InputDecoration(
-                        labelText: '量 (ml)',
-                        border: OutlineInputBorder(),
-                      ),
-                      items: AppConstants.defaultAmounts.map((amount) {
-                        return DropdownMenuItem(
-                          value: amount,
-                          child: Text('$amount ml'),
+                    FormField<int>(
+                      initialValue: _selectedAmount,
+                      builder: (FormFieldState<int> state) {
+                        return InputDecorator(
+                          decoration: InputDecoration(
+                            labelText: '量 (ml)',
+                            border: const OutlineInputBorder(),
+                            errorText: state.hasError ? state.errorText : null,
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<int>(
+                              value: _selectedAmount,
+                              isDense: true,
+                              items: AppConstants.defaultAmounts.map((amount) {
+                                return DropdownMenuItem(
+                                  value: amount,
+                                  child: Text('$amount ml'),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                if (value != null) {
+                                  setState(() {
+                                    _selectedAmount = value;
+                                  });
+                                  state.didChange(value);
+                                }
+                              },
+                            ),
+                          ),
                         );
-                      }).toList(),
-                      onChanged: (value) {
-                        if (value != null) {
-                          setState(() {
-                            _selectedAmount = value;
-                          });
-                        }
                       },
                     ),
                     const SizedBox(height: 16),
@@ -140,24 +166,36 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                     const SizedBox(height: 16),
 
                     // Mood Selection
-                    DropdownButtonFormField<String>(
-                      value: _selectedMood,
-                      decoration: const InputDecoration(
-                        labelText: '気分',
-                        border: OutlineInputBorder(),
-                      ),
-                      items: AppConstants.moods.map((mood) {
-                        return DropdownMenuItem(
-                          value: mood,
-                          child: Text(_getMoodDisplayName(mood)),
+                    FormField<String>(
+                      initialValue: _selectedMood,
+                      builder: (FormFieldState<String> state) {
+                        return InputDecorator(
+                          decoration: InputDecoration(
+                            labelText: '気分',
+                            border: const OutlineInputBorder(),
+                            errorText: state.hasError ? state.errorText : null,
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              value: _selectedMood,
+                              isDense: true,
+                              items: AppConstants.moods.map((mood) {
+                                return DropdownMenuItem(
+                                  value: mood,
+                                  child: Text(_getMoodDisplayName(mood)),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                if (value != null) {
+                                  setState(() {
+                                    _selectedMood = value;
+                                  });
+                                  state.didChange(value);
+                                }
+                              },
+                            ),
+                          ),
                         );
-                      }).toList(),
-                      onChanged: (value) {
-                        if (value != null) {
-                          setState(() {
-                            _selectedMood = value;
-                          });
-                        }
                       },
                     ),
                     const SizedBox(height: 16),
@@ -169,39 +207,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
                         '${_selectedDateTime.year}/${_selectedDateTime.month.toString().padLeft(2, '0')}/${_selectedDateTime.day.toString().padLeft(2, '0')} ${_selectedDateTime.hour.toString().padLeft(2, '0')}:${_selectedDateTime.minute.toString().padLeft(2, '0')}',
                       ),
                       trailing: const Icon(Icons.calendar_today),
-                      onTap: () async {
-                        final currentContext = context;
-                        final now = DateTime.now();
-                        final selectedDateTime = _selectedDateTime;
-                        final date = await showDatePicker(
-                          context: currentContext,
-                          initialDate: selectedDateTime,
-                          firstDate: now.subtract(const Duration(days: 30)),
-                          lastDate: now.add(const Duration(days: 1)),
-                        );
-                        if (!mounted) return;
-                        if (date != null) {
-                          final time = await showTimePicker(
-                            context: currentContext,
-                            initialTime: TimeOfDay.fromDateTime(selectedDateTime),
-                          );
-                          if (!mounted) return;
-                          if (time != null && mounted) {
-                            final newDateTime = DateTime(
-                              date.year,
-                              date.month,
-                              date.day,
-                              time.hour,
-                              time.minute,
-                            );
-                            if (mounted) {
-                              setState(() {
-                                _selectedDateTime = newDateTime;
-                              });
-                            }
-                          }
-                        }
-                      },
+                      onTap: _selectDateTime,
                     ),
                     const SizedBox(height: 16),
 
@@ -332,6 +338,34 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
     return (baseCaffeine * _selectedAmount / 100).round();
   }
 
+  Future<void> _selectDateTime() async {
+    final date = await showDatePicker(
+      context: context,
+      initialDate: _selectedDateTime,
+      firstDate: DateTime.now().subtract(const Duration(days: 30)),
+      lastDate: DateTime.now().add(const Duration(days: 1)),
+    );
+    if (!mounted) return;
+    if (date != null) {
+      final time = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.fromDateTime(_selectedDateTime),
+      );
+      if (!mounted) return;
+      if (time != null) {
+        setState(() {
+          _selectedDateTime = DateTime(
+            date.year,
+            date.month,
+            date.day,
+            time.hour,
+            time.minute,
+          );
+        });
+      }
+    }
+  }
+
   void _saveTeaLog() async {
     if (_formKey.currentState!.validate()) {
       final teaLog = TeaLog(
@@ -353,8 +387,9 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
         await ref.read(teaLogNotifierProvider.notifier).updateTeaLog(teaLog);
       }
 
-      if (!mounted) return;
-      Navigator.pop(context);
+      if (mounted) {
+        Navigator.pop(context);
+      }
     }
   }
 }
