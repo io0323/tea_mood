@@ -97,7 +97,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
 
                     // Amount Selection
                     DropdownButtonFormField<int>(
-                      value: _selectedAmount,
+                      initialValue: _selectedAmount,
                       decoration: const InputDecoration(
                         labelText: '量 (ml)',
                         border: OutlineInputBorder(),
@@ -141,7 +141,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
 
                     // Mood Selection
                     DropdownButtonFormField<String>(
-                      value: _selectedMood,
+                      initialValue: _selectedMood,
                       decoration: const InputDecoration(
                         labelText: '気分',
                         border: OutlineInputBorder(),
