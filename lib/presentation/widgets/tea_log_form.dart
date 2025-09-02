@@ -72,7 +72,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
 
                     // Tea Type Selection
                     DropdownButtonFormField<String>(
-                      value: _selectedTeaType,
+                      initialValue: _selectedTeaType,
                       decoration: const InputDecoration(
                         labelText: 'お茶の種類',
                         border: OutlineInputBorder(),
