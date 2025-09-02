@@ -72,7 +72,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
 
                     // Tea Type Selection
                     DropdownButtonFormField<String>(
-                      value: _selectedTeaType,
+                      initialValue: _selectedTeaType,
                       decoration: const InputDecoration(
                         labelText: 'お茶の種類',
                         border: OutlineInputBorder(),
@@ -97,7 +97,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
 
                     // Amount Selection
                     DropdownButtonFormField<int>(
-                      value: _selectedAmount,
+                      initialValue: _selectedAmount,
                       decoration: const InputDecoration(
                         labelText: '量 (ml)',
                         border: OutlineInputBorder(),
@@ -141,7 +141,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
 
                     // Mood Selection
                     DropdownButtonFormField<String>(
-                      value: _selectedMood,
+                      initialValue: _selectedMood,
                       decoration: const InputDecoration(
                         labelText: '気分',
                         border: OutlineInputBorder(),
@@ -301,8 +301,9 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
   }
 
   Future<void> _selectDateTime() async {
+    final currentContext = context;
     final date = await showDatePicker(
-      context: context,
+      context: currentContext,
       initialDate: _selectedDateTime,
       firstDate: DateTime.now().subtract(const Duration(days: 30)),
       lastDate: DateTime.now().add(const Duration(days: 1)),
@@ -310,7 +311,7 @@ class _TeaLogFormState extends ConsumerState<TeaLogForm> {
     if (!mounted) return;
     if (date != null) {
       final time = await showTimePicker(
-        context: context,
+        context: currentContext,
         initialTime: TimeOfDay.fromDateTime(_selectedDateTime),
       );
       if (!mounted) return;
